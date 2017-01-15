@@ -1,8 +1,9 @@
 //Lets require/import the HTTP module
-var http = require('http');
-var dispatcher = require('httpdispatcher');
-var tellstick = require('tellstick')();
-var devList = {};
+const http = require('http');
+const dispatcher = require('httpdispatcher');
+const tellstick = require('tellstick')();
+const flicUtil = require('./flic-util');
+let devList = {};
 
 const PORT=8080;
 

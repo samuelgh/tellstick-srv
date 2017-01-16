@@ -19,7 +19,7 @@ const listenToButton = (bdAddr) => {
     const cc = new FlicConnectionChannel(bdAddr);
     client.addConnectionChannel(cc);
     cc.on("buttonUpOrDown", (clickType, wasQueued, timeDiff) => {
-        console.log(bdAddr + " " + on + " " + (wasQueued ? "wasQueued" : "notQueued") + " " + timeDiff + " seconds ago");
+        console.log(bdAddr + " " + clickType + " " + (wasQueued ? "wasQueued" : "notQueued") + " " + timeDiff + " seconds ago");
         if (clickType === 'ButtonDown') {
             devList.forEach((device) => {
                 tellstick.turnOff(device.id)

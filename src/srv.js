@@ -17,8 +17,8 @@ function handleRequest(request, response){
   }
 }
 
-dispatcher.setStaticDirname('/');
-dispatcher.setStatic('resources');
+dispatcher.setStatic('/resources');
+dispatcher.setStaticDirname('resources');
 
 dispatcher.onGet('/alloff', function(req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -71,18 +71,13 @@ dispatcher.onGet('/devices', function(req,res) {
 
 tellstick.list(function(err,devices) {
   if ( err ) {
-    console.log('Error: ' + err);
-  } else {
-    // A list of all configured devices is returned
-    devList = devices;
+      console.log('Error: ' + err);
   }
+  devList = devices;
 });
 
-//Create a server
-var server = http.createServer(handleRequest);
+const server = http.createServer(handleRequest);
 
-//Lets start our server
-server.listen(PORT, function(){
-    //Callback triggered when server is successfully listening. Hurray!
+server.listen(PORT, () => {
     console.log("Server listening on: http://localhost:%s", PORT);
 });

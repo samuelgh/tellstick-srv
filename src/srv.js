@@ -2,7 +2,7 @@
 const http = require('http');
 const HttpDispatcher = require('httpdispatcher');
 const tellstick = require('tellstick')();
-const flicLib = require('./../lib/flic-lib');
+const flicUtil = require('./flic-util');
 const dispatcher = new HttpDispatcher();
 let devList = {};
 

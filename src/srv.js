@@ -1,13 +1,14 @@
 //Lets require/import the HTTP module
 const http = require('http');
-const dispatcher = require('httpdispatcher');
+const HttpDispatcher = require('httpdispatcher');
 const tellstick = require('tellstick')();
-const flicUtil = require('./flic-util');
+const flicLib = require('./../lib/flic-lib');
+const dispatcher = new HttpDispatcher();
 let devList = {};
 
 const PORT=8080;
 
-function handleRequest(request, response) {
+function handleRequest(request, response){
   try {
     console.log(request.url);
     dispatcher.dispatch(request,response);
@@ -16,33 +17,33 @@ function handleRequest(request, response) {
   }
 }
 
-dispatcher.setStatic('resources');
 dispatcher.setStaticDirname('/');
+dispatcher.setStatic('resources');
 
-dispatcher.onGet('/alloff', (req, res) => {
+dispatcher.onGet('/alloff', function(req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
-  devList.forEach((device) => { tellstick.turnOff(device.id) });
+  devList.forEach(function(device) {tellstick.turnOff(device.id)});
 });
 
-dispatcher.onGet('/allon', (req, res) => {
+dispatcher.onGet('/allon', function(req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
-  devList.forEach((device) => {tellstick.turnOn(device.id)});
+  devList.forEach(function(device) {tellstick.turnOn(device.id)});
 });
-dispatcher.onPost('/on', (req, res) => {
+dispatcher.onPost('/on', function(req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
   res.end();
   console.log(req.body)
   tellstick.turnOn(req.body);
 });
-dispatcher.onPost('/off', (req, res) => {
+dispatcher.onPost('/off', function(req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
   res.end();
-  console.log(req.body);
+  console.log(req.body)
   tellstick.turnOff(req.body);
 });
 
-dispatcher.onGet('/', (req, res) => {
-	const filename = "." + require('path').join('/html/', 'index.html');
+dispatcher.onGet('/', function(req, res) {
+	var filename = "." + require('path').join('/html/', 'index.html');
 	require('fs').readFile(filename, function(err, file) {
 		console.log(err);
 		if(err) {
@@ -56,7 +57,7 @@ dispatcher.onGet('/', (req, res) => {
 	});
 });
 
-dispatcher.onGet('/devices', (req,res) => {
+dispatcher.onGet('/devices', function(req,res) {
   tellstick.list(function(err, list){
     if ( err ) {
       res.writeHead(500, {'Content-Type': 'application/json'});
@@ -68,8 +69,8 @@ dispatcher.onGet('/devices', (req,res) => {
   });
 });
 
-tellstick.list((err,devices) => {
-  if (err) {
+tellstick.list(function(err,devices) {
+  if ( err ) {
     console.log('Error: ' + err);
   } else {
     // A list of all configured devices is returned
@@ -78,10 +79,10 @@ tellstick.list((err,devices) => {
 });
 
 //Create a server
-const server = http.createServer(handleRequest);
+var server = http.createServer(handleRequest);
 
 //Lets start our server
-server.listen(PORT, () => {
+server.listen(PORT, function(){
     //Callback triggered when server is successfully listening. Hurray!
     console.log("Server listening on: http://localhost:%s", PORT);
 });

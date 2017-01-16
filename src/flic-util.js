@@ -1,8 +1,8 @@
-const flicLib = require('./../lib/flic-lib');
-const tellstick = require('tellstick')();
+let flicLib = require('./../lib/flic-lib');
+let tellstick = require('tellstick')();
 
-const FlicClient = flicLib.FlicClient;
-const FlicConnectionChannel = flicLib.FlicConnectionChannel;
+let FlicClient = flicLib.FlicClient;
+let FlicConnectionChannel = flicLib.FlicConnectionChannel;
 
 const client = new FlicClient("localhost", 5551);
 let devList = {};
@@ -11,6 +11,7 @@ tellstick.list((err,devices) => {
         console.log('Error: ' + err);
     }
     devList = devices;
+    console.log('Loaded devList');
 });
 
 
